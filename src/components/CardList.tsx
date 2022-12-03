@@ -1,12 +1,22 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { cityData } from '../redux/slices/city';
+import { List } from '@mui/material';
+import CityCard from './CityCard';
 const CardList: React.FC = () => {
   const {data} = useSelector(cityData)
+
   return (
-    <div>
-      { data.map(item => <li key={item.id}>{item.sys.country}</li>)}
-    </div>
+    <List sx={
+      {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }
+    }>
+      { data.map(item => <CityCard key={item.id} {...item}/>)}
+    </List>
   )
 }
 

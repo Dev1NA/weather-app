@@ -3,7 +3,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setCitySearch } from '../redux/slices/city';
 import { AppDispatch } from '../redux/store';
-
 const AddTownForm: React.FC = () => {
   const [value, setValue] = React.useState('');
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +20,7 @@ const AddTownForm: React.FC = () => {
   }
 
   return (
-    <div>
+    <div style={{marginBottom: '40px'}}>
       <FormControl
       sx={
         {

@@ -54,7 +54,7 @@ export const fetchWeather = createAsyncThunk(
   'cities/fetchCityStatus',
   async (citySearch: string) => {
     const { data } = await axios.get<cityWeather>(
-      `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&appid=${process.env.REACT_APP_API_KEY}`,
+      `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&units=metric&appid=${process.env.REACT_APP_API_KEY}`,
     );
     return data;
   },
@@ -69,6 +69,9 @@ const citySlice = createSlice({
     setLocalStorageData(state, action: PayloadAction<string[]>) {
       state.localStorageData.push(...action.payload);
     },
+    setData(state, action) {
+      state.data = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchWeather.pending, (state) => {});
@@ -82,6 +85,6 @@ const citySlice = createSlice({
   },
 });
 
-export const { setCitySearch, setLocalStorageData } = citySlice.actions;
+export const { setCitySearch, setLocalStorageData, setData } = citySlice.actions;
 export const cityData = (state: RootState) => state.city;
 export default citySlice.reducer;
