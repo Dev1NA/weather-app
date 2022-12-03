@@ -1,19 +1,25 @@
-import React from 'react'
-import { Input } from '@mui/material';
-import { FormControl, InputLabel, Button } from '@mui/material';
+import { Button, capitalize, FormControl, Input, InputLabel } from '@mui/material';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setCitySearch } from '../redux/slices/city';
+import { AppDispatch } from '../redux/store';
 
 const AddTownForm: React.FC = () => {
   const [value, setValue] = React.useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const ENGLISH_CHARACTERS = /[A-Za-z]/;
+
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.target.value !== "" && !ENGLISH_CHARACTERS.test(e.target.value)) {
+      return alert("You need to type text in English");
+    }
     setValue(e.target.value);
   }
-  const handlerButton = () => {
-    dispatch(setCitySearch(value));
+  const handlerButton = ()  => {
+    dispatch(setCitySearch(capitalize(value)));
     setValue('');
   }
+
   return (
     <div>
       <FormControl
