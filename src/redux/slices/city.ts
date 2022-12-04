@@ -51,12 +51,12 @@ const initialState: citySlice = {
 };
 
 export const fetchWeather = createAsyncThunk(
-  'cities/fetchCityStatus',
+  'data/fetchWeather',
   async (citySearch: string) => {
-    const { data } = await axios.get<cityWeather>(
-      `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&units=metric&appid=${process.env.REACT_APP_API_KEY}`,
-    );
-    return data;
+      const { data } = await axios.get<cityWeather>(
+        `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&units=metric&appid=${process.env.REACT_APP_API_KEY}`,
+        );
+        return data;
   },
 );
 const citySlice = createSlice({
@@ -69,18 +69,29 @@ const citySlice = createSlice({
     setLocalStorageData(state, action: PayloadAction<string[]>) {
       state.localStorageData.push(...action.payload);
     },
-    setData(state, action) {
+    setData(state, action: PayloadAction<cityWeather[]>) {
       state.data = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
+
     builder.addCase(fetchWeather.pending, (state) => {});
     builder.addCase(fetchWeather.fulfilled, (state, action: PayloadAction<cityWeather>) => {
-      state.data.push(action.payload);
-      state.localStorageData.push(action.payload.name);
+      if (state.data) {
+        for (let i = 0; i < state.data.length; i++) {
+          if (state.data[i].name === action.payload.name) {
+            state.data[i] = action.payload;
+            state.data = [...state.data];
+            return;
+          }
+        }
+      }
+      state.data.push(action.payload)
+      state.localStorageData.includes(action.payload.name) ? state.localStorageData = [...state.localStorageData] : state.localStorageData.push(action.payload.name);
     });
+
     builder.addCase(fetchWeather.rejected, (state) => {
-      state.error = `Error happened, maybe such city is not exist.`;
+      state.error = `Error happened, maybe such city doesn't exist.`;
     });
   },
 });

@@ -11,7 +11,7 @@ const App: React.FC = () => {
 
   const getWeather = async () => {
     const lowerCaseCities = localStorageData.map(item => item.toLowerCase());
-    return lowerCaseCities.includes(citySearch.toLowerCase()) ? '' : dispatch(fetchWeather(citySearch))
+    return lowerCaseCities.includes(citySearch.toLowerCase()) ? '' : citySearch && dispatch(fetchWeather(citySearch))
   }
 
   function getLocalStorage<T>(key: string, defaultValue: T | null = null): T | null {
