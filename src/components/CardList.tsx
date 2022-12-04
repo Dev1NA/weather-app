@@ -9,10 +9,12 @@ const CardList: React.FC = () => {
   return (
     <List sx={
       {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        width: "100%",
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gridRowGap: ".5em",
+        gridColumnGap: "1em",
+        justifyItems: "center",
       }
     }>
       { data.map(item => <CityCard key={item.id} {...item}/>)}
