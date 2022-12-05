@@ -3,6 +3,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button, Card } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { cityData, fetchWeather, setData } from '../redux/slices/city';
 import { AppDispatch } from '../redux/store';
 
@@ -89,7 +90,11 @@ const CityCard: React.FC<cityWeather> = ({main, name, weather}) => {
           sx={{cursor: 'pointer', fontSize: 40, color: '#1976d2'}}
           onClick={() => onUpdateButton()}
         />
-        <Button variant="outlined">Details</Button>
+        <Link to={`/detailed/${name}`}>
+          <Button variant="outlined">
+            Details
+          </Button>
+        </Link>
       </Box>
     </Card>
   )

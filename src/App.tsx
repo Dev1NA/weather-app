@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 import AddTownForm from './components/AddTownForm';
 import CardList from './components/CardList';
+import WeatherDetailed from './components/WeatherDetailed';
 import { cityData, fetchWeather } from './redux/slices/city';
 import { AppDispatch } from './redux/store';
 
@@ -42,8 +44,10 @@ const App: React.FC = () => {
   }, [localStorageData])
 
   return <div className="App">
-    <AddTownForm />
-    <CardList />
+    <Routes>
+      <Route path='/' element={<CardList />}/>
+      <Route path='/detailed/:id' element={<WeatherDetailed />}/>
+    </Routes>
   </div>;
 };
 
