@@ -5,14 +5,14 @@ import { List, CircularProgress, Box } from '@mui/material';
 import CityCard from './CityCard';
 import AddTownForm from './AddTownForm';
 const CardList: React.FC = () => {
-  const { data, loaded } = useSelector(cityData);
+  const { data, loaded, updated } = useSelector(cityData);
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(setLoaded(true));
   }, [])
   return (
     <>
-      {!loaded ? (
+      {!loaded && !updated ? (
         <Box
           sx={{
             width: '100%',
@@ -34,6 +34,7 @@ const CardList: React.FC = () => {
               gridRowGap: '.5em',
               gridColumnGap: '1em',
               justifyItems: 'center',
+              marginTop: '150px',
             }}>
             {data.map((item) => (
               <CityCard key={item.id} {...item} />
