@@ -14,7 +14,7 @@ const CardList: React.FC = () => {
         sx={{
           width: '100%',
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gridRowGap: '.5em',
           gridColumnGap: '1em',
           justifyItems: 'center',

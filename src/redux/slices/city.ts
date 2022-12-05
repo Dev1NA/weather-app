@@ -91,7 +91,6 @@ export const fetchDetailedWeather = createAsyncThunk(
       const { data } = await axios.get<cityWeather>(
         `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&units=metric&appid=${process.env.REACT_APP_API_KEY}`,
         );
-        console.log('fetchDetailedWeather/fullfilled!')
         return data;
   },
 );

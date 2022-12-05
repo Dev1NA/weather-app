@@ -68,6 +68,7 @@ const CityCard: React.FC<cityWeather> = ({main, name, weather}) => {
         alignItems: 'center',
         width: '400px',
         marginBottom: '40px',
+        borderRadius: '20px',
       }
     }>
       <CloseIcon sx={

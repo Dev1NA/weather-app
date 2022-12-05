@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { cityWeather, fetchDetailedWeather } from '../redux/slices/city';
 import { AppDispatch } from '../redux/store';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const WeatherDetailed: React.FC = () => {
@@ -14,105 +14,143 @@ const WeatherDetailed: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const getDetailedWeather = async () => {
     try {
-     await dispatch(fetchDetailedWeather(id!))
-      .then(unwrapResult)
-      .then((res) => {
-        console.log(res);
-        setDetailedWeather(res);
-        setLoading(false);
-      });
-    }
-    catch {
+      await dispatch(fetchDetailedWeather(id!))
+        .then(unwrapResult)
+        .then((res) => {
+          setDetailedWeather(res);
+          setLoading(false);
+        });
+    } catch {
       console.log('Error happened!');
     }
   };
 
+  function getDirection(angle: number) {
+    let directions = [
+      'North',
+      'North-East',
+      'East',
+      'South-East',
+      'South',
+      'South-West',
+      'West',
+      'North-West',
+    ];
+    let index = Math.round(((angle %= 360) < 0 ? angle + 360 : angle) / 45) % 8;
+    return directions[index];
+  }
 
   React.useEffect(() => {
     getDetailedWeather();
-
   }, [loading]);
   return (
     <>
-      {!loading &&
-      <Box
-        sx={{
-          width: '1100px',
-          margin: '0 auto',
-          boxShadow: '0px 0px 10px grey',
-          padding: '20px 20px',
-          marginTop: '50px',
-          backgroundColor: 'white',
-        }}>
+      {!loading && (
         <Box
           sx={{
-            textAlign: 'center',
-            marginBottom: '50px',
+            width: '900px',
+            margin: '0 auto',
+            boxShadow: '0px 0px 10px grey',
+            padding: '20px 20px',
+            marginTop: '30px',
+            backgroundColor: 'white',
+            borderRadius: '50px',
           }}>
-          <h1>{detailedWeather?.name}</h1>
-          <Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                maxWidth: '400px',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                margin: '0 auto',
-              }}>
-              <img
-                src={`http://openweathermap.org/img/wn/${detailedWeather?.weather[0].icon}@4x.png`}
-                alt=""
-              />
-              <Typography sx={{
-                fontSize: '48px',
-              }}>{detailedWeather ? Math.ceil(detailedWeather?.main.temp) : ''} °C</Typography>
+          <Box
+            sx={{
+              textAlign: 'center',
+              marginBottom: '50px',
+            }}>
+            <h1>{detailedWeather?.name}</h1>
+            <Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  maxWidth: '300px',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  margin: '0 auto',
+                }}>
+                <img
+                  src={`http://openweathermap.org/img/wn/${detailedWeather?.weather[0].icon}@2x.png`}
+                  alt=""
+                />
+                <Typography
+                  sx={{
+                    fontSize: '36px',
+                  }}>
+                  {detailedWeather ? Math.ceil(detailedWeather?.main.temp) : ''} °C
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  maxWidth: '300px',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  margin: '0 auto',
+                }}>
+                <p>
+                  {detailedWeather ? Math.ceil(detailedWeather?.main.temp_max) : ''} °C /{' '}
+                  {detailedWeather ? Math.ceil(detailedWeather?.main.temp_min) : ''} °C
+                </p>
+                <Typography>
+                  Feels like: {detailedWeather && Math.ceil(detailedWeather?.main.feels_like)} °C
+                </Typography>
+              </Box>
             </Box>
-            <Box
+            <Typography
               sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                maxWidth: '300px',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                margin: '0 auto',
+                fontSize: '28px',
+                marginTop: '20px',
               }}>
-              <p>
-                {detailedWeather ? Math.ceil(detailedWeather?.main.temp_max) : ''} °C /{' '}
-                {detailedWeather ? Math.ceil(detailedWeather?.main.temp_min) : ''} °C
-              </p>
-              <Typography>Feels like: {detailedWeather && Math.ceil(detailedWeather?.main.feels_like)} °C</Typography>
+              {detailedWeather?.weather[0].description}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-around',
+            }}>
+            <Box>
+              <p>Wind:</p>
+              {detailedWeather?.wind.deg !== undefined && (
+                <p>Direction: {getDirection(detailedWeather?.wind.deg)}</p>
+              )}
+              {detailedWeather?.wind.gust && <p>Gust: {detailedWeather?.wind.gust} m/s</p>}
+              {detailedWeather?.wind.speed && <p>Speed: {detailedWeather?.wind.speed} m/s</p>}
+            </Box>
+            <Box>
+              <p>Humidity: {detailedWeather?.main.humidity} %</p>
+              <p>Preesure: {detailedWeather?.main.pressure} hPa</p>
+              {detailedWeather?.main.sea_level && (
+                <p>Sea level: {detailedWeather?.main.sea_level} hPa</p>
+              )}
+              {detailedWeather?.main.grnd_level && (
+                <p>Ground level: {detailedWeather?.main.grnd_level} hPa</p>
+              )}
+              <p>Visibility: {detailedWeather?.visibility} m.</p>
             </Box>
           </Box>
-          <Typography sx={{
-            fontSize: '36px',
-            marginTop: '20px',
-          }}>{detailedWeather?.weather[0].description}</Typography>
-        </Box>
-        <div>
-          <div>
-            Wind:
-            {detailedWeather?.wind.deg && <p>Degree: {detailedWeather?.wind.deg} deg</p>}
-            {detailedWeather?.wind.gust && <p>Gust: {detailedWeather?.wind.gust} m/s</p>}
-            {detailedWeather?.wind.speed && <p>Speed: {detailedWeather?.wind.speed} m.</p>}
-          </div>
-          <p>Humidity: {detailedWeather?.main.humidity} %</p>
-          <p>Preesure: {detailedWeather?.main.pressure} hPa</p>
-          {detailedWeather?.main.sea_level && <p>Sea level: {detailedWeather?.main.sea_level} hPa</p>}
-          {detailedWeather?.main.grnd_level && (
-            <p>Ground level: {detailedWeather?.main.grnd_level} hPa</p>
-          )}
-          <p>Visibility: {detailedWeather?.visibility} m.</p>
-          <p></p>
           <Link to={'/'}>
-            <ArrowBackIosIcon sx={{
-              cursor: 'pointer',
-              marginTop: '50px',
-            }} />
+            <Button
+              variant="contained"
+              sx={{
+                cursor: 'pointer',
+                marginTop: '50px',
+                marginBottom: '30px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: '40px auto',
+              }}>
+              Go back
+            </Button>
           </Link>
-        </div>
-      </Box>
-    }
+        </Box>
+      )}
     </>
   );
 };
