@@ -4,8 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { cityWeather, fetchDetailedWeather } from '../redux/slices/city';
 import { AppDispatch } from '../redux/store';
-import { Box, Typography, Button } from '@mui/material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Box, Typography, Button, CircularProgress } from '@mui/material';
 
 const WeatherDetailed: React.FC = () => {
   const { id } = useParams();
@@ -45,6 +44,18 @@ const WeatherDetailed: React.FC = () => {
   }, [loading]);
   return (
     <>
+      {loading && (
+        <Box
+          sx={{
+            width: '100%',
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <CircularProgress disableShrink />
+        </Box>
+      )}
       {!loading && (
         <Box
           sx={{
@@ -115,7 +126,7 @@ const WeatherDetailed: React.FC = () => {
               justifyContent: 'space-around',
             }}>
             <Box>
-              <p>Wind:</p>
+              <p>Wind</p>
               {detailedWeather?.wind.deg !== undefined && (
                 <p>Direction: {getDirection(detailedWeather?.wind.deg)}</p>
               )}

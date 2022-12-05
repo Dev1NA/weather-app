@@ -42,7 +42,6 @@ const CityCard: React.FC<cityWeather> = ({main, name, weather}) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { data } = useSelector(cityData);
-
   const onDeleteButton = () => {
     const updatedData = data.filter(item => item.name !== name);
     dispatch(setData(updatedData));
@@ -60,7 +59,8 @@ const CityCard: React.FC<cityWeather> = ({main, name, weather}) => {
   }
 
   return (
-    <Card sx={
+    <>
+      <Card sx={
       {
         display: 'flex',
         flexDirection: 'column',
@@ -97,7 +97,9 @@ const CityCard: React.FC<cityWeather> = ({main, name, weather}) => {
           </Button>
         </Link>
       </Box>
-    </Card>
+      </Card>
+    </>
+
   )
 }
 

@@ -9,6 +9,7 @@ interface citySlice {
   localStorageData: string[];
   cities: string[];
   detailed: cityWeather;
+  loaded: boolean,
 }
 
 type cityWeatherClouds = { all: number };
@@ -47,6 +48,7 @@ const initialState: citySlice = {
   citySearch: '',
   data: [],
   error: '',
+  loaded: false,
   localStorageData: [],
   cities: [],
   detailed: {
@@ -108,8 +110,14 @@ const citySlice = createSlice({
     setData(state, action: PayloadAction<cityWeather[]>) {
       state.data = action.payload;
     },
+    setLoaded(state, action: PayloadAction<boolean>) {
+      state.loaded = action.payload;
+    }
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchWeather.pending, (state) => {
+      state.loaded = false;
+    });
     builder.addCase(fetchWeather.fulfilled, (state, action: PayloadAction<cityWeather>) => {
       if (state.data) {
         for (let i = 0; i < state.data.length; i++) {
@@ -120,6 +128,7 @@ const citySlice = createSlice({
           }
         }
       }
+      state.loaded = true;
       state.data.push(action.payload)
       state.localStorageData.includes(action.payload.name) ? state.localStorageData = [...state.localStorageData] : state.localStorageData.push(action.payload.name);
     });
@@ -130,6 +139,6 @@ const citySlice = createSlice({
   },
 });
 
-export const { setCitySearch, setLocalStorageData, setData } = citySlice.actions;
+export const { setCitySearch, setLocalStorageData, setData, setLoaded } = citySlice.actions;
 export const cityData = (state: RootState) => state.city;
 export default citySlice.reducer;
