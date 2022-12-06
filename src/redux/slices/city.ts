@@ -45,6 +45,53 @@ export interface cityWeather {
   wind: cityWeatherWind;
 }
 
+type hourlyWeatherCity = {
+  id: number;
+  name: string;
+  coord: cityWeatherCoord;
+  country: string;
+  population: number;
+  timezone: number;
+  sunrise: number;
+  sunset: number;
+};
+
+type hourlyWeatherMain = {
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  pressure: number;
+  sea_level: number;
+  grnd_level: number;
+  humidity: number;
+  temp_kf: number;
+};
+
+type hourlyWeatherSys = {
+  pod: string;
+};
+
+type hourlyWeatherList = {
+  dt: number;
+  main: hourlyWeatherMain;
+  weather: cityWeatherForecast[];
+  clouds: cityWeatherClouds;
+  wind: cityWeatherWind;
+  visibility: number;
+  pop: number;
+  sys: hourlyWeatherSys;
+  dt_txt: string;
+};
+
+export interface hourlyWeather {
+  cod: string;
+  message: number;
+  cnt: number;
+  list: hourlyWeatherList[];
+  city: hourlyWeatherCity;
+}
+
 const initialState: citySlice = {
   citySearch: '',
   data: [],
@@ -88,7 +135,7 @@ export const fetchWeather = createAsyncThunk('data/fetchWeather', async (citySea
 
 export const fetchDetailedWeather = createAsyncThunk(
   'data/fetchDetailedWeather',
-  async (citySearch: string, {dispatch}) => {
+  async (citySearch: string, { dispatch }) => {
     try {
       const { data } = await axios.get<cityWeather>(
         `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&units=metric&appid=${process.env.REACT_APP_API_KEY}`,
@@ -96,6 +143,20 @@ export const fetchDetailedWeather = createAsyncThunk(
       dispatch(setLoaded(true));
       return data;
     } catch (e) {}
+  },
+);
+
+export const fetchHourlyWeather = createAsyncThunk(
+  'data/fetchHourlyWeather',
+  async (citySearch: string) => {
+    try {
+      const { data } = await axios.get<hourlyWeather>(
+        `https://api.openweathermap.org/data/2.5/forecast?q=${citySearch}&units=metric&cnt=24&appid=${process.env.REACT_APP_API_KEY}`,
+      );
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
   },
 );
 

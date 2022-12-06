@@ -9,45 +9,44 @@ const AddTownForm: React.FC = () => {
   const ENGLISH_CHARACTERS = /[A-Za-z]/;
 
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (e.target.value !== "" && !ENGLISH_CHARACTERS.test(e.target.value)) {
-      return alert("You need to type text in English");
+    if (e.target.value !== '' && !ENGLISH_CHARACTERS.test(e.target.value)) {
+      return alert('You need to type text in English');
     }
     setValue(e.target.value);
-  }
-  const handlerButton = ()  => {
+  };
+  const handlerButton = () => {
     dispatch(setCitySearch(capitalize(value)));
     setValue('');
-  }
+  };
 
   return (
-    <div style={{marginBottom: '40px'}}>
+    <div style={{ marginBottom: '40px' }}>
       <FormControl
-      sx={
-        {
+        sx={{
           width: 300,
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          margin: '20px auto'
-        }
-      }
-      >
+          margin: '20px auto',
+        }}>
         <InputLabel htmlFor="input-city">City</InputLabel>
-        <Input id="input-city" aria-describedby="my-helper-text"
-        onChange={(e) => handlerInput(e)}
-        value={value}
-        sx={
-          {
+        <Input
+          id="input-city"
+          aria-describedby="my-helper-text"
+          onChange={(e) => handlerInput(e)}
+          value={value}
+          sx={{
             width: 300,
             paddingRight: '10px',
-            marginRight: '20px'
-          }
-        }
+            marginRight: '20px',
+          }}
         />
-        <Button variant="contained" onClick={handlerButton}>Add</Button>
+        <Button variant="contained" onClick={handlerButton}>
+          Add
+        </Button>
       </FormControl>
     </div>
-  )
-}
+  );
+};
 
-export default AddTownForm
+export default AddTownForm;

@@ -9,7 +9,7 @@ const CardList: React.FC = () => {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(setLoaded(true));
-  }, [])
+  }, []);
   return (
     <>
       {!loaded && !updated ? (
