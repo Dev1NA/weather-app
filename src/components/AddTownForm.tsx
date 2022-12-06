@@ -10,11 +10,12 @@ const AddTownForm: React.FC = () => {
 
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.value !== '' && !ENGLISH_CHARACTERS.test(e.target.value)) {
-      return alert('You need to type text in English');
+      return alert('Type in English please');
     }
     setValue(e.target.value);
   };
   const handlerButton = () => {
+    if (value == '') alert('You didn\'t type anything');
     dispatch(setCitySearch(capitalize(value)));
     setValue('');
   };

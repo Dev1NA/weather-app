@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { cityData, fetchWeather, setData, setLoaded } from '../redux/slices/city';
 import { AppDispatch } from '../redux/store';
-import { CircularProgress, Alert } from '@mui/material';
 
 type cityWeatherClouds = { all: number };
 type cityWeatherCoord = { lon: number; lat: number };

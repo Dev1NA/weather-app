@@ -119,8 +119,9 @@ const WeatherDetailed: React.FC = () => {
             boxShadow: '0px 0px 10px grey',
             padding: '20px 20px',
             margin: '50px auto',
-            backgroundColor: 'white',
+            backgroundColor: '#4682B4',
             borderRadius: '50px',
+            color: 'white',
           }}>
           <Box
             sx={{
@@ -185,8 +186,8 @@ const WeatherDetailed: React.FC = () => {
               {detailedWeather?.wind.deg !== undefined && (
                 <p>Direction: {getDirection(detailedWeather?.wind.deg)}</p>
               )}
-              {detailedWeather?.wind.gust && <p>Gust: {detailedWeather?.wind.gust} m/s</p>}
-              {detailedWeather?.wind.speed && <p>Speed: {detailedWeather?.wind.speed} m/s</p>}
+              {detailedWeather?.wind.gust && <p>Gust: {Math.round(detailedWeather?.wind.gust)} m/s</p>}
+              {detailedWeather?.wind.speed && <p>Speed: {Math.round(detailedWeather?.wind.speed)} m/s</p>}
             </Box>
             <Box>
               <p>Humidity: {detailedWeather?.main.humidity} %</p>
@@ -207,6 +208,7 @@ const WeatherDetailed: React.FC = () => {
               alignItems: 'center',
               margin: '40px 0',
               marginBottom: '70px',
+              color: 'black',
             }}>
             {hourlyWeather &&
               unique(temperaturas)

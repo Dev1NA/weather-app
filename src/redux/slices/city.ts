@@ -200,9 +200,9 @@ const citySlice = createSlice({
         : state.localStorageData.push(action.payload.name);
     });
 
-    builder.addCase(fetchWeather.rejected, (state) => {
-      state.error = `Error happened, maybe such city doesn't exist.`;
-      state.loaded = false;
+    builder.addCase(fetchWeather.rejected, (state, action) => {
+      state.error = action.error.message!;
+      state.loaded = true;
       state.updated = false;
     });
   },

@@ -1,18 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { cityData, setLoaded } from '../redux/slices/city';
-import { List, CircularProgress, Box } from '@mui/material';
+import { List, CircularProgress, Box, Typography } from '@mui/material';
 import CityCard from './CityCard';
 import AddTownForm from './AddTownForm';
 const CardList: React.FC = () => {
-  const { data, loaded, updated } = useSelector(cityData);
+  const { data, loaded, updated, error } = useSelector(cityData);
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(setLoaded(true));
   }, []);
+  const cityNotFoundError = 'Request failed with status code 404';
+  const networkErrorMessage = 'Error happened. Please try later.';
   return (
     <>
-      {!loaded && !updated ? (
+      {error && error !== cityNotFoundError ? <Typography sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '36px', color: 'white'}}>{networkErrorMessage}</Typography> :
+      !loaded && !updated ? (
         <Box
           sx={{
             width: '100%',
